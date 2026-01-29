@@ -1,4 +1,4 @@
-import { Gender } from '../../user/user.enums';
+import { Gender } from "../../user/user.enums";
 
 interface AccessTokenPayload {
   user_id: string;

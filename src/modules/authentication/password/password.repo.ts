@@ -1,6 +1,6 @@
-import Repository from '../../../base/repo';
-import { IPassword, IPasswordDocument } from './password.model';
-import Password from './password.schema';
+import Repository from "../../../base/repo";
+import { IPassword, IPasswordDocument } from "./password.model";
+import Password from "./password.schema";
 
 class PasswordRepo extends Repository<IPassword, IPasswordDocument> {
   constructor() {

@@ -1,5 +1,5 @@
-import HttpStatus from 'http-status-codes';
-import { ErrorMessage } from '../../common/interface';
+import HttpStatus from "http-status-codes";
+import { ErrorMessage } from "../../common/interface";
 
 abstract class AppError extends Error {
   status_code!: number;
@@ -15,7 +15,7 @@ class InternalServerError extends AppError {
   constructor(error?: ErrorMessage, data?: unknown) {
     super(
       error?.message ||
-        'Internal server error. Please try again later or contact support if issue persists'
+        "Internal server error. Please try again later or contact support if issue persists",
     );
     this.status_code = HttpStatus.INTERNAL_SERVER_ERROR;
     this.custom_code = error?.code;

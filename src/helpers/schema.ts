@@ -1,9 +1,10 @@
-import { Schema, SchemaDefinition, SchemaOptions } from 'mongoose';
-import { mapTo } from '../common/utils/app_utils';
+import { Schema, SchemaDefinition, SchemaOptions } from "mongoose";
+import { mapTo } from "../common/utils/app_utils";
 
-const Types = Schema.Types;
-
-const createSchema = (fields: SchemaDefinition, options?: SchemaOptions): Schema => {
+const createSchema = (
+  fields: SchemaDefinition,
+  options?: SchemaOptions,
+): Schema => {
   if (!fields || Object.keys(fields).length === 0) {
     throw new Error("Please specify this schema's fields");
   }
@@ -37,8 +38,8 @@ const createSchema = (fields: SchemaDefinition, options?: SchemaOptions): Schema
       },
       ...options,
       minimize: true,
-      timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-    }
+      timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+    },
   );
 
   schema.methods.toDTO = function <T>(keys: (keyof T)[]): T {
@@ -46,14 +47,17 @@ const createSchema = (fields: SchemaDefinition, options?: SchemaOptions): Schema
     return mapTo<T>(obj, keys);
   };
 
-  schema.virtual('id').get(function () {
+  schema.virtual("id").get(function () {
     return this._id.toString();
   });
 
   return schema;
 };
 
-const createSubSchema = (fields: SchemaDefinition, options?: SchemaOptions): Schema => {
+const createSubSchema = (
+  fields: SchemaDefinition,
+  options?: SchemaOptions,
+): Schema => {
   if (!fields || Object.keys(fields).length === 0) {
     throw new Error("Please specify this schema's fields");
   }
@@ -85,10 +89,10 @@ const createSubSchema = (fields: SchemaDefinition, options?: SchemaOptions): Sch
     },
     ...options,
     minimize: true,
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   });
 
-  schema.virtual('id').get(function () {
+  schema.virtual("id").get(function () {
     return this._id.toString();
   });
 
@@ -96,13 +100,13 @@ const createSubSchema = (fields: SchemaDefinition, options?: SchemaOptions): Sch
 };
 
 type DefaultSchemaFields =
-  | '_id'
-  | 'deleted_at'
-  | 'is_deleted'
-  | 'id'
-  | 'created_at'
-  | 'updated_at'
-  | 'toDTO';
+  | "_id"
+  | "deleted_at"
+  | "is_deleted"
+  | "id"
+  | "created_at"
+  | "updated_at"
+  | "toDTO";
 
 const ObjectIdType = { type: Schema.Types.ObjectId, trim: true };
 const RequiredObjectIdType = { ...ObjectIdType, required: true };
@@ -111,7 +115,11 @@ const TrimmedRequiredString = { ...TrimmedString, required: true };
 const Email = { ...TrimmedString, lowercase: true };
 const UniqueEmail = { ...TrimmedString, lowercase: true, unique: true };
 const RequiredEmail = { ...TrimmedRequiredString, lowercase: true };
-const UniqueRequiredEmail = { ...TrimmedRequiredString, lowercase: true, unique: true };
+const UniqueRequiredEmail = {
+  ...TrimmedRequiredString,
+  lowercase: true,
+  unique: true,
+};
 
 export {
   createSchema,

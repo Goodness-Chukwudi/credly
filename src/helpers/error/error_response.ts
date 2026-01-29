@@ -1,4 +1,7 @@
-import { BAD_REQUEST_ERROR_CODE, VALIDATION_ERROR_CODE } from '../../common/config/app_config';
+import {
+  BAD_REQUEST_ERROR_CODE,
+  VALIDATION_ERROR_CODE,
+} from "../../common/config/app_config";
 
 const generateValidationError = (message: string) => {
   return {
@@ -15,22 +18,22 @@ const generateBadRequestError = (message: string) => {
 };
 const SESSION_EXPIRED = {
   code: 1,
-  message: 'Session expired. Please login again',
+  message: "Session expired. Please login again",
 };
 
 const INVALID_AUTHENTICATION = {
   code: 2,
-  message: 'Unable to authenticate request. Please login to continue',
+  message: "Unable to authenticate request. Please login to continue",
 };
 
 const INVALID_USER_SESSION = {
   code: 3,
-  message: 'Invalid user session. Please login again',
+  message: "Invalid user session. Please login again",
 };
 
 const EMAIL_REQUIRED = {
   code: 4,
-  message: 'Email is required',
+  message: "Email is required",
 };
 
 const generateNotFoundError = (item: string) => {
@@ -42,28 +45,28 @@ const generateNotFoundError = (item: string) => {
 
 const PASSWORD_MISMATCH = {
   code: 6,
-  message: 'Passwords do not match',
+  message: "Passwords do not match",
 };
 
 const INVALID_LOGIN = {
   code: 8,
   message:
-    'Invalid email or password. Kindly reset your password if you are not sure of your login details anymore',
+    "Invalid email or password. Kindly reset your password if you are not sure of your login details anymore",
 };
 
 const DUPLICATE_EMAIL = {
   code: 9,
-  message: 'A user with this email already exist, please try a different email',
+  message: "A user with this email already exist, please try a different email",
 };
 
 const INACTIVE_ACCOUNT = {
   code: 12,
-  message: 'Your account is inactive',
+  message: "Your account is inactive",
 };
 
 const INVALID_TOKEN = {
   code: 15,
-  message: 'Invalid or expired token',
+  message: "Invalid or expired token",
 };
 
 export {

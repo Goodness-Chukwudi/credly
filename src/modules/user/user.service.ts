@@ -6,9 +6,10 @@ import passwordRepo from "../authentication/password/password.repo";
 import { CreateUserDTO } from "./user.dto";
 import userRepo from "./user.repo";
 
-
-const createNewUser = async (userDetails: CreateUserDTO, session: ClientSession) => {
-
+const createNewUser = async (
+  userDetails: CreateUserDTO,
+  session: ClientSession,
+) => {
   const existingUser = await userRepo.findOne({
     email: userDetails.email,
   });
@@ -30,7 +31,4 @@ const createNewUser = async (userDetails: CreateUserDTO, session: ClientSession)
   return user;
 };
 
-
-export {
-  createNewUser,
-};
+export { createNewUser };

@@ -3,7 +3,6 @@ import { EntityModel, DbId } from "../../../common/interface";
 import { IUserDocument, IUser } from "../../user/user.model";
 import { BIT, SessionDeactivationReason } from "./login_session.enum";
 
-
 interface ILoginSession extends EntityModel {
   user: DbId | IUserDocument | IUser;
   status: BIT;

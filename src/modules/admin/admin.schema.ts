@@ -1,13 +1,22 @@
-import { model, Schema } from 'mongoose';
-import MODEL_NAMES from '../../common/model_manifest';
-import { TrimmedString, DefaultSchemaFields, TrimmedRequiredString, UniqueRequiredEmail, createSchema } from '../../helpers/schema';
-import { IAdmin } from './admin.model';
-import { AdminDepartment, AdminTier } from './admin.enum';
-import { Gender, UserStatus } from '../user/user.enums';
+import { model, Schema } from "mongoose";
+import MODEL_NAMES from "../../common/model_manifest";
+import {
+  TrimmedString,
+  DefaultSchemaFields,
+  TrimmedRequiredString,
+  UniqueRequiredEmail,
+  createSchema,
+} from "../../helpers/schema";
+import { IAdmin } from "./admin.model";
+import { AdminDepartment, AdminTier } from "./admin.enum";
+import { Gender, UserStatus } from "../user/user.enums";
 
 const Types = Schema.Types;
 
-const schemaFields: Record<keyof Omit<IAdmin, 'full_name' | DefaultSchemaFields>, object> = {
+const schemaFields: Record<
+  keyof Omit<IAdmin, "full_name" | DefaultSchemaFields>,
+  object
+> = {
   first_name: { ...TrimmedRequiredString },
   last_name: { ...TrimmedRequiredString },
   middle_name: { ...TrimmedString },
@@ -22,8 +31,9 @@ const schemaFields: Record<keyof Omit<IAdmin, 'full_name' | DefaultSchemaFields>
 
 const AdminSchema = createSchema(schemaFields);
 
-AdminSchema.virtual('full_name').get(function () {
-  if (this.middle_name) return `${this.first_name} ${this.middle_name} ${this.last_name}`;
+AdminSchema.virtual("full_name").get(function () {
+  if (this.middle_name)
+    return `${this.first_name} ${this.middle_name} ${this.last_name}`;
   return `${this.first_name} ${this.last_name}`;
 });
 

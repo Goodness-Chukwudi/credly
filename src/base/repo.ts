@@ -1,5 +1,11 @@
-import { Model, ClientSession, UpdateQuery, FilterQuery, UpdateWriteOpResult } from 'mongoose';
-import { IQueryOptions } from '../common/interface';
+import {
+  Model,
+  ClientSession,
+  UpdateQuery,
+  FilterQuery,
+  UpdateWriteOpResult,
+} from "mongoose";
+import { IQueryOptions } from "../common/interface";
 
 /**
  * An abstract class that provides methods for performing DB queries.
@@ -23,7 +29,10 @@ abstract class Repository<T, TDocument> {
    * @param {TCreate} data Document to be saved
    * @param {IQueryOptions} options An optional object containing parameters that can be passed to the mongoose query
    */
-  public save(data: Partial<T>, options: IQueryOptions = {}): Promise<TDocument> {
+  public save(
+    data: Partial<T>,
+    options: IQueryOptions = {},
+  ): Promise<TDocument> {
     const model = new this.model(data);
     return model.save({ session: options.session }) as Promise<TDocument>;
   }
@@ -44,13 +53,15 @@ abstract class Repository<T, TDocument> {
    */
   public async find(
     query: FilterQuery<T> = {},
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<TDocument[] | T[]> {
     query = { $and: [query, { is_deleted: false }] };
     const sortOrder = Object.values(options.sort || { created_at: -1 })[0];
     if (options.cursor) {
       const cursorCondition =
-        sortOrder == 1 ? { _id: { $gt: options.cursor } } : { _id: { $lt: options.cursor } };
+        sortOrder == 1
+          ? { _id: { $gt: options.cursor } }
+          : { _id: { $lt: options.cursor } };
       query = { $and: [cursorCondition, query] };
     }
 
@@ -70,7 +81,10 @@ abstract class Repository<T, TDocument> {
    * @param {FilterQuery<T>} query An optional mongo query to fetch documents that matched the filter. Returns all documents if query isn't provided
    * @param {IQueryOptions} options An optional object containing parameters that can be passed to the mongoose query
    */
-  public async paginate(query: FilterQuery<T> = {}, options: IQueryOptions = {}) {
+  public async paginate(
+    query: FilterQuery<T> = {},
+    options: IQueryOptions = {},
+  ) {
     query = { $and: [query, { is_deleted: false }] };
 
     const page = Math.max(1, options.page || 1);
@@ -119,7 +133,10 @@ abstract class Repository<T, TDocument> {
    * @param {string} id The object id of the document to be fetched
    *  @param {IQueryOptions} options An optional object containing parameters that can be passed to the mongoose query
    */
-  public async findById(id: string, options: IQueryOptions = {}): Promise<TDocument | T> {
+  public async findById(
+    id: string,
+    options: IQueryOptions = {},
+  ): Promise<TDocument | T> {
     const query = { _id: id, is_deleted: false };
 
     const response = await this.model
@@ -138,7 +155,7 @@ abstract class Repository<T, TDocument> {
    */
   public async findOne(
     filter: FilterQuery<T> = {},
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<TDocument | T> {
     const query = { $and: [filter, { is_deleted: false }] };
 
@@ -160,7 +177,7 @@ abstract class Repository<T, TDocument> {
   public async updateById(
     id: string,
     update: UpdateQuery<T>,
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<TDocument | T> {
     const query = { _id: id, is_deleted: false };
 
@@ -181,7 +198,7 @@ abstract class Repository<T, TDocument> {
   public async updateOne(
     filter: FilterQuery<T>,
     update: UpdateQuery<T>,
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<TDocument | T> {
     const query = { $and: [filter, { is_deleted: false }] };
 
@@ -202,7 +219,7 @@ abstract class Repository<T, TDocument> {
   public async updateMany(
     filter: FilterQuery<T>,
     update: UpdateQuery<T>,
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<UpdateWriteOpResult> {
     const query = { $and: [filter, { is_deleted: false }] };
 
@@ -222,7 +239,7 @@ abstract class Repository<T, TDocument> {
   public async deleteOne(
     filter: FilterQuery<T>,
     update: UpdateQuery<T> = {},
-    options: IQueryOptions = {}
+    options: IQueryOptions = {},
   ): Promise<TDocument | T> {
     const query = { $and: [filter, { is_deleted: false }] };
     update = { ...update, is_deleted: true, deleted_at: new Date() };

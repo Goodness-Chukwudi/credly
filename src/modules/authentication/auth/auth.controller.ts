@@ -8,7 +8,6 @@ import { loginUser, setLoginResponse } from "./auth.service";
 import { hashData } from "./auth.utils";
 import { signUp, login } from "./auth.validator";
 
-
 class _AuthController extends ApiController {
   validator!: RequestValidator;
   authMiddleware!: AuthMiddleware;
@@ -23,8 +22,8 @@ class _AuthController extends ApiController {
   }
 
   protected initializeRoutes() {
-    this.signup('/signup'); //POST
-    this.login('/login'); //POST
+    this.signup("/signup"); //POST
+    this.login("/login"); //POST
   }
 
   signup(path: string) {
@@ -33,18 +32,17 @@ class _AuthController extends ApiController {
     this.router.post(path, async (req, res) => {
       const session = await createDbSession();
       try {
-        const { confirm_password, ...rest } = req.body;
         const userData: CreateUserDTO = {
-          ...rest,
+          ...req.body,
           password: await hashData(req.body.password),
         };
 
         const user = await createNewUser(userData, session);
-        const message = 'Your account has been created and is pending approval';
+        const message = "Your account has been created and is pending approval";
 
         await this.handleSuccess(res, { message, user }, 201, session);
       } catch (error) {
-       await this.handleError(res, error as Error, null, session);
+        await this.handleError(res, error as Error, null, session);
       }
     });
   }
@@ -54,14 +52,14 @@ class _AuthController extends ApiController {
       path,
       this.validator.validateBody(login),
       this.authMiddleware.loadUserAndPasswordToRequestByEmail,
-      this.authMiddleware.validatePassword
+      this.authMiddleware.validatePassword,
     );
 
     this.router.post(path, async (req, res) => {
       try {
         const user = this.requestUtils.getUser();
         const token = await loginUser(user);
-        const response = setLoginResponse(user, token, 'Login successful!');
+        const response = setLoginResponse(user, token, "Login successful!");
 
         await this.handleSuccess(res, response);
       } catch (error) {

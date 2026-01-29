@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 import {
   validRequiredString,
   validRequiredEmail,
@@ -6,9 +6,9 @@ import {
   validConfirmPassword,
   validString,
   validRequiredIsoDate,
-} from '../../../common/utils/request_validator';
-import { Gender } from '../../user/user.enums';
-import { COUNTRY } from '../../../common/countries.enum';
+} from "../../../common/utils/request_validator";
+import { Gender } from "../../user/user.enums";
+import { COUNTRY } from "../../../common/countries.enum";
 
 const signUp = Joi.object({
   first_name: validRequiredString,
@@ -29,7 +29,4 @@ const login = Joi.object({
   password: validRequiredString,
 });
 
-export {
-  signUp,
-  login,
-};
+export { signUp, login };

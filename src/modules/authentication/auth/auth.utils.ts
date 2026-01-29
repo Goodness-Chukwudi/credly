@@ -1,9 +1,9 @@
-import { Request } from 'express';
-import Jwt, { SignOptions, VerifyCallback } from 'jsonwebtoken';
-import { AccessTokenPayload } from './auth.dto';
-import bcrypt from 'bcrypt';
-import { TOKEN_ALGORITHM } from '../../../common/config/app_config';
-import Env from '../../../common/config/environment_variables';
+import { Request } from "express";
+import Jwt, { SignOptions, VerifyCallback } from "jsonwebtoken";
+import { AccessTokenPayload } from "./auth.dto";
+import bcrypt from "bcrypt";
+import { TOKEN_ALGORITHM } from "../../../common/config/app_config";
+import Env from "../../../common/config/environment_variables";
 
 /**
  * Generates an access token. Signs the provided payload into the token
@@ -30,7 +30,7 @@ const generateAccessToken = (payload: AccessTokenPayload): string => {
  */
 const verifyAccessToken = (
   token: string,
-  callback: VerifyCallback<AccessTokenPayload>
+  callback: VerifyCallback<AccessTokenPayload>,
 ) => {
   Jwt.verify(
     token,
@@ -42,7 +42,7 @@ const verifyAccessToken = (
     },
     (err, decoded) => {
       callback(err, decoded as AccessTokenPayload);
-    }
+    },
   );
 };
 
@@ -57,9 +57,14 @@ const hashData = async (data: string, rounds = 12): Promise<string> => {
  * @param {string} hashedData the hashed data to compare with the provided value
  * @returns {boolean} A promise that resolves to boolean. Returns true if the two values are equal, other wise false
  */
-const validateHashedData = async (value: string, hashedData: string): Promise<boolean> => {
+const validateHashedData = async (
+  value: string,
+  hashedData: string,
+): Promise<boolean> => {
   if (!value || !hashedData) {
-    throw new Error('Either the hashed data or values to compare with it, is not provided');
+    throw new Error(
+      "Either the hashed data or values to compare with it, is not provided",
+    );
   }
 
   return await bcrypt.compare(value, hashedData);
@@ -71,11 +76,11 @@ const validateHashedData = async (value: string, hashedData: string): Promise<bo
  * @returns {string}  a string
  */
 const getTokenFromRequest = (req: Request): string => {
-  const authorization = req.headers.authorization || '';
-  let jwt = '';
+  const authorization = req.headers.authorization || "";
+  let jwt = "";
   if (authorization) {
-    if (authorization.split(' ').length > 1) {
-      jwt = authorization.split(' ')[1];
+    if (authorization.split(" ").length > 1) {
+      jwt = authorization.split(" ")[1];
     }
   }
   return jwt;

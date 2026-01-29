@@ -1,5 +1,5 @@
-import { Request } from 'express';
-import winston from 'winston';
+import { Request } from "express";
+import winston from "winston";
 
 /**
  * A Utility class that provides methods used for logging
@@ -9,11 +9,11 @@ class Logger {
     winston.add(
       new winston.transports.Console({
         format: winston.format.prettyPrint(),
-      })
+      }),
     );
 
     winston.log({
-      level: 'error',
+      level: "error",
       message: error.message,
       metadata,
       error,
@@ -26,11 +26,11 @@ class Logger {
     winston.add(
       new winston.transports.Console({
         format: winston.format.prettyPrint(),
-      })
+      }),
     );
 
     winston.log({
-      level: 'error',
+      level: "error",
       message: error.message,
       metadata,
       error,
@@ -42,11 +42,11 @@ class Logger {
     winston.add(
       new winston.transports.Console({
         format: winston.format.prettyPrint(),
-      })
+      }),
     );
 
     winston.log({
-      level: 'info',
+      level: "info",
       message,
       metadata,
       time_stamp: new Date(),

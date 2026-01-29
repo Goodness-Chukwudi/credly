@@ -1,7 +1,11 @@
-import Joi from 'joi';
-import { stringArrayRequired, validRequiredNumber, validRequiredString } from './request_validator';
-import { Environments } from '../config/app_config';
-import Env from '../config/environment_variables';
+import Joi from "joi";
+import {
+  stringArrayRequired,
+  validRequiredNumber,
+  validRequiredString,
+} from "./request_validator";
+import { Environments } from "../config/app_config";
+import Env from "../config/environment_variables";
 
 function validateEnvironmentVariables() {
   const EnvSchema = Joi.object({
@@ -17,8 +21,12 @@ function validateEnvironmentVariables() {
     MONGODB_URI: validRequiredString,
   });
 
-  const response = EnvSchema.validate(Env, { allowUnknown: false, abortEarly: false });
-  if (response.error) throw new Error(`Env Validation Error: ${response.error.message}`);
+  const response = EnvSchema.validate(Env, {
+    allowUnknown: false,
+    abortEarly: false,
+  });
+  if (response.error)
+    throw new Error(`Env Validation Error: ${response.error.message}`);
 }
 
 export default validateEnvironmentVariables;

@@ -1,4 +1,4 @@
-import { ClientSession, PopulateOptions, Types } from 'mongoose';
+import { ClientSession, PopulateOptions, Types } from "mongoose";
 
 export interface EntityModel {
   id: string;
@@ -33,10 +33,4 @@ type DbId = string | Types.ObjectId;
 type DbSortQuery = Record<string, 1 | -1> | null;
 type DbPopulation = PopulateOptions | (string | PopulateOptions)[];
 
-export type {
-  ErrorMessage,
-  IQueryOptions,
-  DbSortQuery,
-  DbPopulation,
-  DbId,
-};
+export type { ErrorMessage, IQueryOptions, DbSortQuery, DbPopulation, DbId };

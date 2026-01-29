@@ -1,6 +1,6 @@
-import express, { Router } from 'express';
-import ResponseHandler from './response.handler';
-import RequestUtils from '../common/utils/request_utils';
+import express, { Router } from "express";
+import ResponseHandler from "./response.handler";
+import RequestUtils from "../common/utils/request_utils";
 
 /**
  * An abstract class that provides a base controller for all API controllers.

@@ -1,7 +1,7 @@
-import { Document } from 'mongoose';
-import { Gender, UserStatus } from './user.enums';
-import { COUNTRY } from '../../common/countries.enum';
-import { EntityModel } from '../../common/interface';
+import { Document } from "mongoose";
+import { Gender, UserStatus } from "./user.enums";
+import { COUNTRY } from "../../common/countries.enum";
+import { EntityModel } from "../../common/interface";
 
 export interface IUser extends EntityModel {
   first_name: string;

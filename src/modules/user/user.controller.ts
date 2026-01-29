@@ -7,7 +7,6 @@ import { SessionDeactivationReason } from "../authentication/login_session/login
 import { loggedInUserFields } from "./user.dto";
 import { IUser } from "./user.model";
 
-
 class _UserController extends ApiController {
   validator!: RequestValidator;
   authMiddleware!: AuthMiddleware;
@@ -22,8 +21,8 @@ class _UserController extends ApiController {
   }
 
   protected initializeRoutes() {
-    this.me('/me'); //Get
-    this.logout('/logout'); //Patch
+    this.me("/me"); //Get
+    this.logout("/logout"); //Patch
   }
 
   me(path: string) {
@@ -40,18 +39,21 @@ class _UserController extends ApiController {
     });
   }
 
-    logout(path: string) {
-      this.router.patch(path, async (req, res) => {
-        try {
-          const currentSession = this.requestUtils.getLoginSession();
-          await logoutUser(currentSession, SessionDeactivationReason.USER_LOG_OUT);
+  logout(path: string) {
+    this.router.patch(path, async (req, res) => {
+      try {
+        const currentSession = this.requestUtils.getLoginSession();
+        await logoutUser(
+          currentSession,
+          SessionDeactivationReason.USER_LOG_OUT,
+        );
 
-          await this.handleSuccess(res);
-        } catch (error) {
-          await this.handleError(res, error as Error);
-        }
-      });
-    }
+        await this.handleSuccess(res);
+      } catch (error) {
+        await this.handleError(res, error as Error);
+      }
+    });
+  }
 }
 
 const UserController = new _UserController().router;

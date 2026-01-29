@@ -1,15 +1,18 @@
-import { Request, Response } from 'express';
-import { randomUUID } from 'crypto';
-import { Types } from 'mongoose';
+import { Request, Response } from "express";
+import { randomUUID } from "crypto";
+import { Types } from "mongoose";
 
 /**
  * Records and logs the response time for http requests
  * @returns {void}
  */
 const recordResponseTime = (req: Request, res: Response, time: number) => {
-  console.log(`${req.method}: ${req.originalUrl} => ${time.toFixed(3)} ms `, res.statusCode); // eslint-disable-line no-console
+  // eslint-disable-next-line no-console
+  console.log(
+    `${req.method}: ${req.originalUrl} => ${time.toFixed(3)} ms `,
+    res.statusCode,
+  );
 };
-
 
 const uuid = (): string => {
   return randomUUID();
@@ -23,11 +26,18 @@ const createObjectId = () => {
  * Maps a source object to a target type, only keeping keys defined in the target.
  * Useful for formatting DB objects before sending in responses.
  */
-const mapTo = <T>(source: Partial<Record<keyof T, unknown>>, fields?: (keyof T)[]): T => {
+const mapTo = <T>(
+  source: Partial<Record<keyof T, unknown>>,
+  fields?: (keyof T)[],
+): T => {
   const target: Record<string, unknown> = {};
 
   for (const key in source) {
-    if ((Object.prototype.hasOwnProperty.call(source, key) && fields?.includes(key)) || !fields) {
+    if (
+      (Object.prototype.hasOwnProperty.call(source, key) &&
+        fields?.includes(key)) ||
+      !fields
+    ) {
       // Only copy properties that exist in source or if no fields were provided copy all properties
       target[key] = source[key];
     }
@@ -39,9 +49,4 @@ const mapTo = <T>(source: Partial<Record<keyof T, unknown>>, fields?: (keyof T)[
   return target as T;
 };
 
-export {
-  recordResponseTime,
-  uuid,
-  createObjectId,
-  mapTo,
-};
+export { recordResponseTime, uuid, createObjectId, mapTo };

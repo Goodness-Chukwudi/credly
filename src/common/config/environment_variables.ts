@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 interface IEnv {
   NODE_ENV: string;
@@ -16,9 +16,9 @@ interface IEnv {
 const Env: IEnv = {
   NODE_ENV: process.env.NODE_ENV as string,
   PORT: process.env.PORT as unknown as number,
-  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(', ') as string[],
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(", ") as string[],
   API_VERSION: process.env.API_VERSION as string,
-  API_PATH: '/api/' + process.env.API_VERSION,
+  API_PATH: "/api/" + process.env.API_VERSION,
   JWT_SECRET: process.env.JWT_SECRET as string,
   JWT_AUDIENCE: process.env.JWT_AUDIENCE as string,
   JWT_ISSUER: process.env.JWT_ISSUER as string,

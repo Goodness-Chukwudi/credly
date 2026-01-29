@@ -1,5 +1,5 @@
-import mongoose, { ClientSession } from 'mongoose';
-import Env from '../common/config/environment_variables';
+import mongoose, { ClientSession } from "mongoose";
+import Env from "../common/config/environment_variables";
 
 const connectToDB = async () => {
   return connectToMongoDbUsingMongoose();
@@ -9,13 +9,16 @@ async function connectToMongoDbUsingMongoose() {
   return new Promise((resolve, reject) => {
     try {
       mongoose.connect(Env.MONGODB_URI);
-      mongoose.connection.on('error', (err) => {
-        console.error('Unable to connect to MongoDB via Mongoose\n' + err.message); // eslint-disable-line no-console
+      mongoose.connection.on("error", (err) => {
+        // eslint-disable-next-line no-console
+        console.error(
+          "Unable to connect to MongoDB via Mongoose\n" + err.message,
+        );
         reject(err);
       });
 
-      mongoose.connection.once('open', async () => {
-        console.log('Connected to MongoDB via Mongoose'); // eslint-disable-line no-console
+      mongoose.connection.once("open", async () => {
+        console.log("Connected to MongoDB via Mongoose"); // eslint-disable-line no-console
         resolve(true);
       });
     } catch (error) {

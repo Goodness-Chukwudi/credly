@@ -1,8 +1,8 @@
-import { Response } from 'express';
-import { ClientSession } from 'mongoose';
-import logger from '../common/utils/logger';
-import { AppError } from '../helpers/error/app_error';
-import { VALIDATION_ERROR_CODE } from '../common/config/app_config';
+import { Response } from "express";
+import { ClientSession } from "mongoose";
+import logger from "../common/utils/logger";
+import { AppError } from "../helpers/error/app_error";
+import { VALIDATION_ERROR_CODE } from "../common/config/app_config";
 
 abstract class ResponseHandler {
   /**
@@ -17,7 +17,7 @@ abstract class ResponseHandler {
     res: Response,
     error: Error,
     data?: unknown,
-    session?: ClientSession
+    session?: ClientSession,
   ) {
     if (session) await session.abortTransaction();
 
@@ -32,12 +32,14 @@ abstract class ResponseHandler {
         statusCode = error.status_code;
         errorData = error.data;
         errors =
-          error.custom_code === VALIDATION_ERROR_CODE ? error.message.split('. ') : [error.message];
+          error.custom_code === VALIDATION_ERROR_CODE
+            ? error.message.split(". ")
+            : [error.message];
         errorCode = error.custom_code;
       } else {
         logger.error(error, res.req);
         message =
-          'Unable to complete request. Please try again later or contact support if issue persists';
+          "Unable to complete request. Please try again later or contact support if issue persists";
         errors = [message];
       }
 
@@ -55,7 +57,7 @@ abstract class ResponseHandler {
       logger.error(error as Error, res.req);
 
       const message =
-        'Unable to complete request. Please try again later or contact support if issue persists';
+        "Unable to complete request. Please try again later or contact support if issue persists";
       const response = {
         message,
         errors: [message],
@@ -79,7 +81,7 @@ abstract class ResponseHandler {
     res: Response,
     data?: unknown,
     statusCode = 200,
-    session?: ClientSession
+    session?: ClientSession,
   ) {
     try {
       if (session) await session.commitTransaction();
@@ -94,7 +96,7 @@ abstract class ResponseHandler {
       logger.error(error as Error, res.req);
 
       const message =
-        'Unable to complete request. Please try again later or contact support if issue persists';
+        "Unable to complete request. Please try again later or contact support if issue persists";
       const response = {
         message,
         errors: [message],

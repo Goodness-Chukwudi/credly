@@ -4,8 +4,12 @@
   "description": "Credly",
   "main": "dist/index.js",
   "scripts": {
+    "lint": "eslint . --ext .ts,.js --cache --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.js --fix --cache",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "check": "pnpm lint && pnpm format:check",
     "serve": "npm run build & node ./dist/index.js",
-    "lint": "eslint . --ext .ts",
     "test": "jest",
     "ts-node": "ts-node --transpileOnly ./src/index.ts",
     "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run lint && npm run ts-node\"",

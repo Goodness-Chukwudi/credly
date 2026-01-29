@@ -1,9 +1,8 @@
-
 enum AdminDepartment {
-  SALES = 'sales',
-  OPERATIONS = 'operations',
-  FINANCE = 'finance',
-  ENGINEERING = 'engineering',
+  SALES = "sales",
+  OPERATIONS = "operations",
+  FINANCE = "finance",
+  ENGINEERING = "engineering",
 }
 
 enum AdminTier {
