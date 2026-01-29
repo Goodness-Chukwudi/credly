@@ -1,0 +1,63 @@
+{
+  "name": "credly",
+  "version": "1.0.0",
+  "description": "Credly",
+  "main": "dist/index.js",
+  "scripts": {
+    "serve": "npm run build & node ./dist/index.js",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "ts-node": "ts-node --transpileOnly ./src/index.ts",
+    "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run lint && npm run ts-node\"",
+    "build": "npm run lint && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goodness-Chukwudi/credly.git"
+  },
+  "author": "Goodness Chukwudi",
+  "bugs": {
+    "url": "https://github.com/Goodness-Chukwudi/credly/issues"
+  },
+  "homepage": "https://github.com/Goodness-Chukwudi/credly#readme",
+  "dependencies": {
+    "@joi/date": "^2.1.1",
+    "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "http-status-codes": "^2.3.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.18.0",
+    "mongoose-lean-getters": "^2.2.2",
+    "mongoose-lean-virtuals": "^2.0.1",
+    "response-time": "^2.3.4",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/bcrypt": "^6.0.0",
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.6.0",
+    "@types/response-time": "^2.3.9",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0"
+  }
+}
