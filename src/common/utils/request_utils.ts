@@ -1,10 +1,10 @@
 import { Request, Router, Response } from 'express';
-import { IUser } from '../../app/user/user.model';
+import { IUser } from '../../modules/user/user.model';
 import {
   LOGIN_SESSION_LABEL,
   USER_LABEL,
 } from '../constants';
-import { ILoginSession } from '../../app/authentication/login_session/login_session.model';
+import { ILoginSession } from '../../modules/authentication/login_session/login_session.model';
 
 class RequestUtils {
   private router: Router;

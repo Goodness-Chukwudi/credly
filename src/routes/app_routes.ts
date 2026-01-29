@@ -1,8 +1,8 @@
 import { Express } from 'express';
-import AuthMiddleware from '../app/authentication/auth/auth.middleware';
-import UserController from '../app/user/user.controller';
+import AuthMiddleware from '../modules/authentication/auth/auth.middleware';
+import UserController from '../modules/user/user.controller';
 import Env from '../common/config/environment_variables';
-import AuthController from '../app/authentication/auth/auth.controller';
+import AuthController from '../modules/authentication/auth/auth.controller';
 
 class AppRoute {
   private app: Express;

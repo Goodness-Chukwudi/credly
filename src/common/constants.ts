@@ -1,5 +1,5 @@
-import { UserStatusResponseDTO } from "../app/user/user.dto";
-import { UserStatus } from "../app/user/user.enums";
+import { UserStatusResponseDTO } from "../modules/user/user.dto";
+import { UserStatus } from "../modules/user/user.enums";
 
 export const USER_LABEL = 'user';
 export const LOGIN_SESSION_LABEL = 'login_session';
