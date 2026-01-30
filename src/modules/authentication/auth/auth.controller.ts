@@ -59,7 +59,11 @@ class _AuthController extends ApiController {
       try {
         const user = this.requestUtils.getUser();
         const token = await loginUser(user);
-        const response = setLoginResponse(user, token, "Login successful!");
+        const response = await setLoginResponse(
+          user,
+          token,
+          "Login successful!",
+        );
 
         await this.handleSuccess(res, response);
       } catch (error) {

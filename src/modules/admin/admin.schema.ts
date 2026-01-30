@@ -1,32 +1,23 @@
-import { model, Schema } from "mongoose";
+import { model } from "mongoose";
 import MODEL_NAMES from "../../common/model_manifest";
 import {
-  TrimmedString,
   DefaultSchemaFields,
   TrimmedRequiredString,
-  UniqueRequiredEmail,
   createSchema,
+  RequiredObjectIdType,
 } from "../../helpers/schema";
 import { IAdmin } from "./admin.model";
-import { AdminDepartment, AdminTier } from "./admin.enum";
-import { Gender, UserStatus } from "../user/user.enums";
-
-const Types = Schema.Types;
+import { AdminDepartment, AdminTier, AdminType } from "./admin.enum";
 
 const schemaFields: Record<
   keyof Omit<IAdmin, "full_name" | DefaultSchemaFields>,
   object
 > = {
-  first_name: { ...TrimmedRequiredString },
-  last_name: { ...TrimmedRequiredString },
-  middle_name: { ...TrimmedString },
-  gender: { ...TrimmedString, enum: Gender },
-  dob: { type: Types.Date, required: true, min: new Date(Date.now()) },
-  email: { ...UniqueRequiredEmail },
-  phone: { ...TrimmedString },
+  user: { ...RequiredObjectIdType, ref: MODEL_NAMES.USER },
   department: { ...TrimmedRequiredString, enum: AdminDepartment },
   tier: { ...TrimmedRequiredString, enum: AdminTier, default: AdminTier.ONE },
-  status: { ...TrimmedString, enum: UserStatus, default: UserStatus.PENDING },
+  type: { ...TrimmedRequiredString, enum: AdminType, default: AdminType.ADMIN },
+  is_active: { type: Boolean, default: false },
 };
 
 const AdminSchema = createSchema(schemaFields);

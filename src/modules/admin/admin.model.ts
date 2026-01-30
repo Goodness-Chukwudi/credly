@@ -1,20 +1,14 @@
 import { Document } from "mongoose";
-import { EntityModel } from "../../common/interface";
-import { AdminDepartment, AdminTier } from "./admin.enum";
-import { Gender, UserStatus } from "../user/user.enums";
+import { DbId, EntityModel } from "../../common/interface";
+import { AdminDepartment, AdminTier, AdminType } from "./admin.enum";
+import { IUser, IUserDocument } from "../user/user.model";
 
 export interface IAdmin extends EntityModel {
-  first_name: string;
-  last_name: string;
-  middle_name?: string;
-  full_name?: string;
+  user: DbId | IUserDocument | IUser;
   department: AdminDepartment;
   tier: AdminTier;
-  gender: Gender;
-  dob: Date;
-  email: string;
-  phone: string;
-  status: UserStatus;
+  type: AdminType;
+  is_active: boolean;
 }
 
 export interface IAdminDocument extends IAdmin, Document {

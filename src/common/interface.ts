@@ -5,11 +5,6 @@ export interface EntityModel {
   created_at: Date;
   updated_at: Date;
   deleted_at?: Date;
-  /**
-   * Converts the entity document into a DTO object.
-   * @param keys Array of keys to include. If omitted, all safe fields are returned.
-   */
-  toDTO<T>(keys: (keyof T)[]): T;
 }
 
 interface ErrorMessage {

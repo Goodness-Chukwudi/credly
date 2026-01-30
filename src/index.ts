@@ -4,6 +4,7 @@ import Env from "./common/config/environment_variables";
 import validateEnvironmentVariables from "./common/utils/env_validator";
 import logger from "./common/utils/logger";
 import { connectToDB } from "./helpers/db";
+import { createDefaultAdmin } from "./modules/admin/admin.service";
 
 validateEnvironmentVariables();
 
@@ -19,6 +20,8 @@ connectToDB()
   .catch(() => {
     console.log("DB Connection not successful"); // eslint-disable-line no-console
   });
+
+createDefaultAdmin().then(() => "Default admin created");
 
 process.on("unhandledRejection", (reason: string, metadata: unknown) => {
   const error = new Error(reason);

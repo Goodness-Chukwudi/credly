@@ -5,9 +5,11 @@ import {
   USER_LABEL,
   USER_PASSWORD_LABEL,
   LOGIN_SESSION_LABEL,
+  ADMIN_LABEL,
 } from "../../../common/constants";
 import {
   BadRequestError,
+  ForbiddenError,
   NotFoundError,
   UnauthorizedError,
 } from "../../../helpers/error/app_error";
@@ -18,6 +20,7 @@ import {
   INVALID_AUTHENTICATION,
   SESSION_EXPIRED,
   INVALID_USER_SESSION,
+  ACCESS_DENIED,
 } from "../../../helpers/error/error_response";
 import { IUser } from "../../user/user.model";
 import userRepo from "../../user/user.repo";
@@ -32,6 +35,7 @@ import {
   getTokenFromRequest,
   verifyAccessToken,
 } from "./auth.utils";
+import adminRepo from "../../admin/admin.repo";
 
 class AuthMiddleware extends RouterMiddleware {
   constructor(appRouter: Router) {
@@ -133,6 +137,19 @@ class AuthMiddleware extends RouterMiddleware {
     }
 
     await verifyAccessToken(token, this.verifyTokenCallback(req, res, next));
+  };
+
+  adminGuard = async (req: Request, res: Response, next: NextFunction) => {
+    const user = this.requestUtils.getUser();
+    const admin = await adminRepo.findOne({ user: user.id, is_active: true });
+    if (!admin) {
+      const error = new ForbiddenError(ACCESS_DENIED);
+      return await this.handleError(res, error);
+    }
+
+    this.requestUtils.addToState(ADMIN_LABEL, admin);
+
+    next();
   };
 
   private verifyTokenCallback = (

@@ -21,7 +21,7 @@ const schemaFields: Record<
   last_name: { ...TrimmedRequiredString },
   middle_name: { ...TrimmedString },
   gender: { ...TrimmedString, enum: Gender },
-  dob: { type: Types.Date, required: true, min: new Date(Date.now()) },
+  dob: { type: Types.Date, required: true, max: new Date(Date.now()) },
   email: { ...UniqueRequiredEmail },
   phone: { ...TrimmedString },
   address: { ...{ ...TrimmedRequiredString } },

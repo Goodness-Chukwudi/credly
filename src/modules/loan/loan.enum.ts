@@ -22,4 +22,16 @@ enum LoanInterestType {
   REDUCING = "reducing",
 }
 
-export { LoanApprovalMethod, LoanStatus, LoanRepaymentType, LoanInterestType };
+enum InstallmentFrequency {
+  WEEKLY = "weekly",
+  BI_WEEKLY = "biweekly",
+  MONTHLY = "monthly",
+}
+
+export {
+  LoanApprovalMethod,
+  LoanStatus,
+  LoanRepaymentType,
+  LoanInterestType,
+  InstallmentFrequency,
+};

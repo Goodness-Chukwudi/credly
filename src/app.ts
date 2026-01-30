@@ -6,6 +6,7 @@ import Env from "./common/config/environment_variables";
 import { recordResponseTime } from "./common/utils/app_utils";
 import corsSettings from "./common/utils/cors";
 import AppRoute from "./routes/app_routes";
+import AdminRoute from "./routes/admin_routes";
 
 class App {
   public app: Express;
@@ -43,6 +44,9 @@ class App {
 
     const appRoute = new AppRoute(this.app);
     appRoute.initializeRoutes();
+
+    const adminRoute = new AdminRoute(this.app);
+    adminRoute.initializeRoutes();
 
     //return a 404 for unspecified/unmatched routes
     this.app.use((req, res) => {

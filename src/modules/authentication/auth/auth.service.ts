@@ -10,7 +10,6 @@ import {
   INVALID_LOGIN,
   INACTIVE_ACCOUNT,
 } from "../../../helpers/error/error_response";
-import { loggedInUserFields } from "../../user/user.dto";
 import { UserStatus } from "../../user/user.enums";
 import { IUser } from "../../user/user.model";
 import {
@@ -20,7 +19,8 @@ import {
 import { ILoginSession } from "../login_session/login_session.model";
 import loginSessionRepo from "../login_session/login_session.repo";
 import { generateAccessToken } from "./auth.utils";
-import { mapTo } from "../../../common/utils/app_utils";
+import walletRepo from "../../wallet/wallet.repo";
+import { WALLET_STATUS } from "../../wallet/wallet.enum";
 
 const loginUser = async (user: IUser, session?: ClientSession) => {
   const activeSession = await loginSessionRepo.findOne({
@@ -112,11 +112,20 @@ const validateUserStatus = (user: IUser) => {
   }
 };
 
-const setLoginResponse = (user: IUser, token: string, message: string) => {
-  user = mapTo<IUser>(user, loggedInUserFields);
+const setLoginResponse = async (
+  user: IUser,
+  token: string,
+  message: string,
+) => {
+  const wallet = await walletRepo.findOne({
+    user: user.id,
+    status: { $ne: WALLET_STATUS.CLOSED },
+  });
+
   const response = {
     message,
     user,
+    wallet,
     access_token: token,
   };
 

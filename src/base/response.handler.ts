@@ -2,7 +2,7 @@ import { Response } from "express";
 import { ClientSession } from "mongoose";
 import logger from "../common/utils/logger";
 import { AppError } from "../helpers/error/app_error";
-import { VALIDATION_ERROR_CODE } from "../common/config/app_config";
+import { VALIDATION_ERROR_CODE } from "../helpers/error/error_response";
 
 abstract class ResponseHandler {
   /**

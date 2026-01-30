@@ -7,6 +7,7 @@ import {
   LoanRepaymentType,
   LoanStatus,
   LoanApprovalMethod,
+  InstallmentFrequency,
 } from "./loan.enum";
 import { IAdmin, IAdminDocument } from "../admin/admin.model";
 
@@ -14,8 +15,6 @@ export interface ILoan extends EntityModel {
   user: DbId | IUserDocument | IUser;
   principal_amount: number;
   interest_rate: number;
-  interest_type: LoanInterestType;
-  interest_amount: number;
   total_repayable_interest: number;
   currency: Currency;
 
@@ -23,7 +22,7 @@ export interface ILoan extends EntityModel {
   due_date: Date;
   repayment_type: LoanRepaymentType;
   installment_count: number;
-  installment_frequency: number;
+  installment_frequency: InstallmentFrequency;
   late_fee_rate: number; // e.g. 0.02 = 2% per period overdue
   late_fees_accrued: number;
   penalty_cap: number; // Max penalty allowed

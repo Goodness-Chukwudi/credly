@@ -10,18 +10,16 @@ import {
   createSchema,
 } from "../../helpers/schema";
 import {
-  LoanInterestType,
   LoanRepaymentType,
   LoanStatus,
   LoanApprovalMethod,
+  InstallmentFrequency,
 } from "./loan.enum";
 
 const schemaFields: Record<keyof Omit<ILoan, DefaultSchemaFields>, object> = {
-  user: { ...RequiredObjectIdType, ref: MODEL_NAMES.USER },
+  user: { ...RequiredObjectIdType, ref: MODEL_NAMES.USER, index: true },
   principal_amount: { type: Number, required: true },
   interest_rate: { type: Number, required: true, min: 0, max: 100 },
-  interest_type: { ...TrimmedRequiredString, enum: LoanInterestType },
-  interest_amount: { type: Number, required: true, min: 0 },
   total_repayable_interest: { type: Number, required: true, min: 0 },
   currency: {
     ...TrimmedString,
@@ -33,7 +31,10 @@ const schemaFields: Record<keyof Omit<ILoan, DefaultSchemaFields>, object> = {
   due_date: { type: Date, required: true, min: new Date(Date.now()) },
   repayment_type: { ...TrimmedRequiredString, enum: LoanRepaymentType },
   installment_count: { type: Number, min: 0 },
-  installment_frequency: { type: Number, min: 0 },
+  installment_frequency: {
+    ...TrimmedRequiredString,
+    enum: InstallmentFrequency,
+  },
   late_fee_rate: { type: Number, default: 0, min: 0, max: 100 },
   late_fees_accrued: { type: Number, min: 0 },
   penalty_cap: { type: Number, min: 0 },

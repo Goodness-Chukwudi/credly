@@ -1,11 +1,10 @@
 import ApiController from "../../base/api.controller";
-import { mapTo } from "../../common/utils/app_utils";
 import RequestValidator from "../../common/utils/request_validator";
 import AuthMiddleware from "../authentication/auth/auth.middleware";
 import { logoutUser } from "../authentication/auth/auth.service";
 import { SessionDeactivationReason } from "../authentication/login_session/login_session.enum";
-import { loggedInUserFields } from "./user.dto";
-import { IUser } from "./user.model";
+import { WALLET_STATUS } from "../wallet/wallet.enum";
+import walletRepo from "../wallet/wallet.repo";
 
 class _UserController extends ApiController {
   validator!: RequestValidator;
@@ -28,11 +27,13 @@ class _UserController extends ApiController {
   me(path: string) {
     this.router.get(path, async (req, res) => {
       try {
-        let user = this.requestUtils.getUser();
+        const user = this.requestUtils.getUser();
+        const wallet = await walletRepo.findOne({
+          user: user.id,
+          status: { $ne: WALLET_STATUS.CLOSED },
+        });
 
-        user = mapTo<IUser>(user, loggedInUserFields);
-
-        await this.handleSuccess(res, user);
+        await this.handleSuccess(res, { user, wallet });
       } catch (error) {
         await this.handleError(res, error as Error);
       }

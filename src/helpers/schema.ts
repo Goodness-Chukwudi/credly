@@ -1,5 +1,4 @@
 import { Schema, SchemaDefinition, SchemaOptions } from "mongoose";
-import { mapTo } from "../common/utils/app_utils";
 
 const createSchema = (
   fields: SchemaDefinition,
@@ -41,11 +40,6 @@ const createSchema = (
       timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
     },
   );
-
-  schema.methods.toDTO = function <T>(keys: (keyof T)[]): T {
-    const obj = this.toObject({ getters: true });
-    return mapTo<T>(obj, keys);
-  };
 
   schema.virtual("id").get(function () {
     return this._id.toString();
@@ -105,8 +99,7 @@ type DefaultSchemaFields =
   | "is_deleted"
   | "id"
   | "created_at"
-  | "updated_at"
-  | "toDTO";
+  | "updated_at";
 
 const ObjectIdType = { type: Schema.Types.ObjectId, trim: true };
 const RequiredObjectIdType = { ...ObjectIdType, required: true };

@@ -12,4 +12,10 @@ enum AdminTier {
   FOUR = 4,
 }
 
-export { AdminDepartment, AdminTier };
+enum AdminType {
+  SUPER_ADMIN = "super_admin",
+  ADMIN = "admin",
+  MODERATOR = "moderator",
+}
+
+export { AdminDepartment, AdminTier, AdminType };

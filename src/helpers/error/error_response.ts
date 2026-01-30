@@ -1,7 +1,4 @@
-import {
-  BAD_REQUEST_ERROR_CODE,
-  VALIDATION_ERROR_CODE,
-} from "../../common/config/app_config";
+const VALIDATION_ERROR_CODE = 0;
 
 const generateValidationError = (message: string) => {
   return {
@@ -12,39 +9,39 @@ const generateValidationError = (message: string) => {
 
 const generateBadRequestError = (message: string) => {
   return {
-    code: BAD_REQUEST_ERROR_CODE,
+    code: 1,
     message,
   };
 };
 const SESSION_EXPIRED = {
-  code: 1,
+  code: 2,
   message: "Session expired. Please login again",
 };
 
 const INVALID_AUTHENTICATION = {
-  code: 2,
+  code: 3,
   message: "Unable to authenticate request. Please login to continue",
 };
 
 const INVALID_USER_SESSION = {
-  code: 3,
+  code: 4,
   message: "Invalid user session. Please login again",
 };
 
 const EMAIL_REQUIRED = {
-  code: 4,
+  code: 5,
   message: "Email is required",
 };
 
 const generateNotFoundError = (item: string) => {
   return {
-    code: 5,
+    code: 6,
     message: `This ${item} does not exist`,
   };
 };
 
 const PASSWORD_MISMATCH = {
-  code: 6,
+  code: 7,
   message: "Passwords do not match",
 };
 
@@ -60,19 +57,25 @@ const DUPLICATE_EMAIL = {
 };
 
 const INACTIVE_ACCOUNT = {
-  code: 12,
+  code: 10,
   message: "Your account is inactive",
 };
 
 const INVALID_TOKEN = {
-  code: 15,
+  code: 11,
   message: "Invalid or expired token",
+};
+
+const ACCESS_DENIED = {
+  code: 12,
+  message: "You do not have permission to perform this action",
 };
 
 export {
   generateBadRequestError,
   generateValidationError,
   generateNotFoundError,
+  VALIDATION_ERROR_CODE,
   SESSION_EXPIRED,
   INVALID_AUTHENTICATION,
   INVALID_USER_SESSION,
@@ -82,4 +85,5 @@ export {
   DUPLICATE_EMAIL,
   INACTIVE_ACCOUNT,
   INVALID_TOKEN,
+  ACCESS_DENIED,
 };

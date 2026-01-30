@@ -19,16 +19,6 @@ const JoiValidatorOptions = {
 };
 
 const IS_DEV = Env.NODE_ENV === Environments.DEV;
-
-const VALIDATION_ERROR_CODE = 0;
-const BAD_REQUEST_ERROR_CODE = -1;
 const TOKEN_ALGORITHM = "HS256";
 
-export {
-  Environments,
-  JoiValidatorOptions,
-  VALIDATION_ERROR_CODE,
-  BAD_REQUEST_ERROR_CODE,
-  TOKEN_ALGORITHM,
-  IS_DEV,
-};
+export { Environments, JoiValidatorOptions, TOKEN_ALGORITHM, IS_DEV };
