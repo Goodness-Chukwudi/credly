@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { RequestLoanDTO } from "./loan.dto";
 import { differenceInMonths } from "date-fns";
 import loanRepo from "./loan.repo";
@@ -8,6 +9,8 @@ import {
   generateNotFoundError,
 } from "../../helpers/error/error_response";
 import { INTEREST_RATE } from "../../common/constants";
+import { FilterQuery } from "mongoose";
+import { ILoan } from "./loan.model";
 
 const requestLoan = async (data: RequestLoanDTO) => {
   const duration = differenceInMonths(new Date(), data.due_date);
@@ -22,7 +25,7 @@ const requestLoan = async (data: RequestLoanDTO) => {
 };
 
 const updateLoanRequest = async (loanId: string, data: RequestLoanDTO) => {
-  const loan = await loanRepo.findById(loanId);
+  const loan = await loanRepo.findOne({ _id: loanId, user: data.user });
   if (!loan) throw new NotFoundError(generateNotFoundError("loan request"));
   if (loan.status !== LoanStatus.PENDING) {
     const error = generateBadRequestError(
@@ -41,8 +44,8 @@ const updateLoanRequest = async (loanId: string, data: RequestLoanDTO) => {
   return await loanRepo.updateById(loanId, update);
 };
 
-const deleteLoanRequest = async (loanId: string) => {
-  const loan = await loanRepo.findById(loanId);
+const deleteLoanRequest = async (loanId: string, user: string) => {
+  const loan = await loanRepo.findOne({ _id: loanId, user });
   if (!loan) throw new NotFoundError(generateNotFoundError("loan request"));
   if (loan.status !== LoanStatus.PENDING) {
     const error = generateBadRequestError(
@@ -54,8 +57,15 @@ const deleteLoanRequest = async (loanId: string) => {
   return await loanRepo.deleteOne({ _id: loanId });
 };
 
-const getLoans = async (userId: string, page?: number, limit?: number) => {
-  return await loanRepo.paginate({ user: userId }, { page, limit });
+const getLoans = async (userId: string, req: Request) => {
+  const query: FilterQuery<ILoan> = { user: userId };
+  if (req.query.status) query.status = req.query.status;
+
+  let page, limit;
+  if (req.query.page) page = Number(req.query.page);
+  if (req.query.limit) limit = Number(req.query.limit);
+
+  return await loanRepo.paginate(query, { page, limit });
 };
 
 export { requestLoan, updateLoanRequest, deleteLoanRequest, getLoans };

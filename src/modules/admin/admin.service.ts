@@ -1,4 +1,5 @@
-import { ClientSession } from "mongoose";
+import { Request } from "express";
+import { ClientSession, FilterQuery } from "mongoose";
 import { COUNTRY } from "../../common/countries.enum";
 import logger from "../../common/utils/logger";
 import { createDbSession } from "../../helpers/db";
@@ -12,6 +13,10 @@ import { NotFoundError } from "../../helpers/error/app_error";
 import { generateNotFoundError } from "../../helpers/error/error_response";
 import { WALLET_TYPE } from "../wallet/wallet.enum";
 import walletRepo from "../wallet/wallet.repo";
+import { differenceInMonths } from "date-fns";
+import { LoanStatus } from "../loan/loan.enum";
+import loanRepo from "../loan/loan.repo";
+import { ILoan } from "../loan/loan.model";
 
 const verifyNewUser = async (userId: string, session: ClientSession) => {
   const user = await userRepo.findOne({ _id: userId, is_verified: false });
@@ -77,4 +82,37 @@ const createDefaultAdmin = async () => {
   }
 };
 
-export { createDefaultAdmin, verifyNewUser };
+const getLoans = async (req: Request) => {
+  const query: FilterQuery<ILoan> = {};
+  if (req.query.status) query.status = req.query.status;
+  if (req.query.user) query.user = req.query.user;
+
+  let page, limit;
+  if (req.query.page) page = Number(req.query.page);
+  if (req.query.limit) limit = Number(req.query.limit);
+
+  return await loanRepo.paginate(query, { page, limit });
+};
+
+const approveLoan = async (loanId: string, adminId: string) => {
+  const loan = await loanRepo.findOne({
+    _id: loanId,
+    status: LoanStatus.PENDING,
+  });
+
+  if (!loan) throw new NotFoundError(generateNotFoundError("loan request"));
+
+  const now = new Date();
+  const duration = differenceInMonths(now, loan.due_date);
+  const update = {
+    disbursement_date: now,
+    status: LoanStatus.ACTIVE,
+    total_repayable_interest:
+      loan.principal_amount * loan.interest_rate * duration,
+    approved_by: adminId,
+  };
+
+  return await loanRepo.updateById(loan.id, update);
+};
+
+export { createDefaultAdmin, verifyNewUser, getLoans, approveLoan };
