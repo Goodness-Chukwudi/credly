@@ -82,7 +82,7 @@ const createDefaultAdmin = async () => {
   }
 };
 
-const getLoans = async (req: Request) => {
+const getUsersLoans = async (req: Request) => {
   const query: FilterQuery<ILoan> = {};
   if (req.query.status) query.status = req.query.status;
   if (req.query.user) query.user = req.query.user;
@@ -94,7 +94,7 @@ const getLoans = async (req: Request) => {
   return await loanRepo.paginate(query, { page, limit });
 };
 
-const approveLoan = async (loanId: string, adminId: string) => {
+const approveUsersLoan = async (loanId: string, adminId: string) => {
   const loan = await loanRepo.findOne({
     _id: loanId,
     status: LoanStatus.PENDING,
@@ -115,4 +115,4 @@ const approveLoan = async (loanId: string, adminId: string) => {
   return await loanRepo.updateById(loan.id, update);
 };
 
-export { createDefaultAdmin, verifyNewUser, getLoans, approveLoan };
+export { createDefaultAdmin, verifyNewUser, getUsersLoans, approveUsersLoan };

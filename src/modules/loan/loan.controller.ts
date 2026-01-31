@@ -24,6 +24,9 @@ class _LoanController extends ApiController {
 
   protected initializeRoutes() {
     this.requestNewLoan("/"); //POST
+    this.updateLoan("/:loanId"); //PATCH
+    this.listLoans("/"); //GET
+    this.deleteLoan("/:loanId"); //DELETE
   }
 
   requestNewLoan(path: string) {
