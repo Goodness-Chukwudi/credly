@@ -67,10 +67,9 @@ class _LoanController extends ApiController {
     this.router.get(path, async (req, res) => {
       try {
         const user = this.requestUtils.getUser();
-        await getLoans(user.id, req);
-        const message = "Loan request deleted successfully";
+        const loans = await getLoans(user.id, req);
 
-        await this.handleSuccess(res, { message });
+        await this.handleSuccess(res, { loans });
       } catch (error) {
         await this.handleError(res, error as Error);
       }
@@ -94,12 +93,10 @@ class _LoanController extends ApiController {
     this.router.delete(path, async (req, res) => {
       try {
         const user = this.requestUtils.getUser();
-        const loans = await deleteLoanRequest(
-          req.params.loanId as string,
-          user.id,
-        );
+        await deleteLoanRequest(req.params.loanId as string, user.id);
+        const message = "Loan request deleted successfully";
 
-        await this.handleSuccess(res, { loans });
+        await this.handleSuccess(res, { message });
       } catch (error) {
         await this.handleError(res, error as Error);
       }

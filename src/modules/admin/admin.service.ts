@@ -94,6 +94,10 @@ const getUsersLoans = async (req: Request) => {
   return await loanRepo.paginate(query, { page, limit });
 };
 
+const getUsersLoanDetails = async (loanId: string) => {
+  return await loanRepo.findById(loanId, { populate: ["user"] });
+};
+
 const approveUsersLoan = async (loanId: string, adminId: string) => {
   const loan = await loanRepo.findOne({
     _id: loanId,
@@ -115,4 +119,10 @@ const approveUsersLoan = async (loanId: string, adminId: string) => {
   return await loanRepo.updateById(loan.id, update);
 };
 
-export { createDefaultAdmin, verifyNewUser, getUsersLoans, approveUsersLoan };
+export {
+  createDefaultAdmin,
+  verifyNewUser,
+  getUsersLoans,
+  approveUsersLoan,
+  getUsersLoanDetails,
+};

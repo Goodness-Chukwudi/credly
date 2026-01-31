@@ -5,6 +5,7 @@ import { createDbSession } from "../../helpers/db";
 import AuthMiddleware from "../authentication/auth/auth.middleware";
 import {
   approveUsersLoan,
+  getUsersLoanDetails,
   getUsersLoans,
   verifyNewUser,
 } from "./admin.service";
@@ -25,7 +26,8 @@ class _AdminController extends ApiController {
   protected initializeRoutes() {
     this.verifyUser("/verifications/users/:userId"); //PATCH
     this.listLoans("/loans"); //GET
-    this.approveLoan("/loans/:loanId"); //PATCH
+    this.viewLoanDetails("/loans/:loanId"); //GET
+    this.approveLoan("/loans/:loanId/approve"); //PATCH
   }
 
   verifyUser(path: string) {
@@ -48,6 +50,18 @@ class _AdminController extends ApiController {
         const loans = await getUsersLoans(req);
 
         await this.handleSuccess(res, { loans });
+      } catch (error) {
+        await this.handleError(res, error as Error);
+      }
+    });
+  }
+
+  viewLoanDetails(path: string) {
+    this.router.get(path, async (req, res) => {
+      try {
+        const loan = await getUsersLoanDetails(req.params.loanId as string);
+
+        await this.handleSuccess(res, { loan });
       } catch (error) {
         await this.handleError(res, error as Error);
       }
