@@ -56,6 +56,7 @@ Credly is a Node.js/TypeScript backend for a lending app, providing wallet funct
 ## Server Base URL
 
 https://credly-v0gz.onrender.com/api/v1
+Note: The server is on Render's free tier and will spin down following a period of inactivity. The first request after this will take a minute or two to get a response
 
 ## API Endpoints
 
