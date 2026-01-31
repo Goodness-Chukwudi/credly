@@ -11,7 +11,7 @@ export const INPUT_VALIDATION_ERROR = "One or more validation errors occurred";
 export const ONE_DAY_IN_SECS = 864_00;
 export const ONE_DAY_IN_MILLI_SECS = 8640_00_00;
 export const THIRTY_DAYS_IN_MILLI_SECS = 8640_00_00 * 30;
-export const INTEREST_RATE = 20;
+export const INTEREST_RATE = 0.2;
 
 type Status = `${UserStatus}`;
 const UserStatusResponse: Partial<Record<Status, UserStatusResponseDTO>> = {

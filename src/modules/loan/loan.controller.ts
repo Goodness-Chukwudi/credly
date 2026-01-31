@@ -3,6 +3,7 @@ import RequestValidator from "../../common/utils/request_validator";
 import AuthMiddleware from "../authentication/auth/auth.middleware";
 import {
   deleteLoanRequest,
+  getLoanDetails,
   getLoans,
   requestLoan,
   updateLoanRequest,
@@ -24,8 +25,9 @@ class _LoanController extends ApiController {
 
   protected initializeRoutes() {
     this.requestNewLoan("/"); //POST
-    this.updateLoan("/:loanId"); //PATCH
     this.listLoans("/"); //GET
+    this.getLoanDetails("/:loanId"); //GET
+    this.updateLoan("/:loanId"); //PATCH
     this.deleteLoan("/:loanId"); //DELETE
   }
 
@@ -65,10 +67,23 @@ class _LoanController extends ApiController {
     this.router.get(path, async (req, res) => {
       try {
         const user = this.requestUtils.getUser();
-        req.body.user = user.id;
-        const loans = await getLoans(user.id, req);
+        await getLoans(user.id, req);
+        const message = "Loan request deleted successfully";
 
-        await this.handleSuccess(res, { loans });
+        await this.handleSuccess(res, { message });
+      } catch (error) {
+        await this.handleError(res, error as Error);
+      }
+    });
+  }
+
+  getLoanDetails(path: string) {
+    this.router.get(path, async (req, res) => {
+      try {
+        const user = this.requestUtils.getUser();
+        const loan = await getLoanDetails(req.params.loanId as string, user.id);
+
+        await this.handleSuccess(res, { loan });
       } catch (error) {
         await this.handleError(res, error as Error);
       }
@@ -79,7 +94,6 @@ class _LoanController extends ApiController {
     this.router.delete(path, async (req, res) => {
       try {
         const user = this.requestUtils.getUser();
-        req.body.user = user.id;
         const loans = await deleteLoanRequest(
           req.params.loanId as string,
           user.id,

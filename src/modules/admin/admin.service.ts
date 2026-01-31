@@ -105,11 +105,11 @@ const approveUsersLoan = async (loanId: string, adminId: string) => {
   const now = new Date();
   const duration = differenceInMonths(now, loan.due_date);
   const update = {
-    disbursement_date: now,
     status: LoanStatus.ACTIVE,
     total_repayable_interest:
       loan.principal_amount * loan.interest_rate * duration,
     approved_by: adminId,
+    approved_on: new Date(),
   };
 
   return await loanRepo.updateById(loan.id, update);

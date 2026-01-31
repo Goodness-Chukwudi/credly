@@ -16,7 +16,7 @@ class AdminRoute {
     const BASE_ROUTE = Env.API_PATH;
 
     this.app.use(
-      BASE_ROUTE,
+      BASE_ROUTE + "/admin",
       this.authMiddleware.authGuard,
       this.authMiddleware.adminGuard,
     );

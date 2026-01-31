@@ -3,7 +3,6 @@ import { DbId, EntityModel } from "../../common/interface";
 import { Currency } from "../../common/currencies.enum";
 import { IUserDocument, IUser } from "../user/user.model";
 import {
-  LoanInterestType,
   LoanRepaymentType,
   LoanStatus,
   LoanApprovalMethod,
@@ -15,7 +14,8 @@ export interface ILoan extends EntityModel {
   user: DbId | IUserDocument | IUser;
   principal_amount: number;
   interest_rate: number;
-  total_repayable_interest: number;
+  total_interest: number;
+  total_repayable_amount: number;
   currency: Currency;
 
   disbursement_date: Date;
@@ -32,6 +32,7 @@ export interface ILoan extends EntityModel {
   days_overdue: number;
   approval_method: LoanApprovalMethod;
   approved_by: DbId | IAdminDocument | IAdmin;
+  approved_on: Date;
   repayment_completion_date: Date;
 }
 
