@@ -7,6 +7,7 @@ import {
   approveUsersLoan,
   getUsersLoanDetails,
   getUsersLoans,
+  listUsers,
   verifyNewUser,
 } from "./admin.service";
 
@@ -24,10 +25,23 @@ class _AdminController extends ApiController {
   }
 
   protected initializeRoutes() {
-    this.verifyUser("/verifications/users/:userId"); //PATCH
+    this.listUsers("/users"); //GET
+    this.verifyUser("/users/:userId/verify"); //PATCH
     this.listLoans("/loans"); //GET
     this.viewLoanDetails("/loans/:loanId"); //GET
     this.approveLoan("/loans/:loanId/approve"); //PATCH
+  }
+
+  listUsers(path: string) {
+    this.router.get(path, async (req, res) => {
+      try {
+        const users = await listUsers(req);
+
+        await this.handleSuccess(res, { users });
+      } catch (error) {
+        await this.handleError(res, error as Error);
+      }
+    });
   }
 
   verifyUser(path: string) {

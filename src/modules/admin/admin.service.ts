@@ -9,8 +9,11 @@ import { createNewUser } from "../user/user.service";
 import { AdminDepartment, AdminTier, AdminType } from "./admin.enum";
 import adminRepo from "./admin.repo";
 import userRepo from "../user/user.repo";
-import { NotFoundError } from "../../helpers/error/app_error";
-import { generateNotFoundError } from "../../helpers/error/error_response";
+import { BadRequestError, NotFoundError } from "../../helpers/error/app_error";
+import {
+  generateBadRequestError,
+  generateNotFoundError,
+} from "../../helpers/error/error_response";
 import { WALLET_TYPE } from "../wallet/wallet.enum";
 import walletRepo from "../wallet/wallet.repo";
 import { differenceInMonths } from "date-fns";
@@ -18,9 +21,25 @@ import { LoanStatus } from "../loan/loan.enum";
 import loanRepo from "../loan/loan.repo";
 import { ILoan } from "../loan/loan.model";
 
+const listUsers = async (req: Request) => {
+  const query: FilterQuery<ILoan> = {};
+  if (req.query.status) query.status = req.query.status;
+
+  let page, limit;
+  if (req.query.page) page = Number(req.query.page);
+  if (req.query.limit) limit = Number(req.query.limit);
+
+  return await userRepo.paginate(query, { page, limit });
+};
+
 const verifyNewUser = async (userId: string, session: ClientSession) => {
-  const user = await userRepo.findOne({ _id: userId, is_verified: false });
+  const user = await userRepo.findOne({ _id: userId });
   if (!user) throw new NotFoundError(generateNotFoundError("user"));
+
+  if (user.is_verified) {
+    const error = generateBadRequestError("This user is already verified");
+    throw new BadRequestError(error);
+  }
 
   const update = {
     is_verified: true,
@@ -125,4 +144,5 @@ export {
   getUsersLoans,
   approveUsersLoan,
   getUsersLoanDetails,
+  listUsers,
 };
